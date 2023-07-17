@@ -7,6 +7,8 @@ class Paddle:
     def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
+        self.init_x = x
+        self.init_y = y
         self.width = width
         self.height = height
 
@@ -24,3 +26,7 @@ class Paddle:
             self.y = 0
         elif self.y + self.height > frame_height:
             self.y = frame_height - self.height
+
+    def reset(self):
+        self.x = self.init_x
+        self.y = self.init_y

@@ -14,6 +14,7 @@ FRAME = pygame.display.set_mode((FRAME_WIDTH, FRAME_HEIGHT))
 pygame.display.set_caption("Ping Pong AI")
 
 # Scores Font
+GAME_SCORE = 3
 SCORE_FONT = pygame.font.SysFont("comicsans", 50)
 
 # paddles
@@ -55,9 +56,6 @@ def draw(frame, paddles, ball, left_score, right_score):
 
     pygame.display.update()
 
-def reset_game():
-    play_ball.reset()
-
 def main():
     running = True
 
@@ -84,13 +82,38 @@ def main():
         # handle ball collisions
         handle_collision(play_ball, left_paddle, right_paddle, FRAME_HEIGHT)
 
-        # calculate if someone win
+        # calculate if someone scores
         if play_ball.x < 0:
             right_score += 1
-            reset_game()
+            play_ball.reset()
         elif play_ball.x > FRAME_WIDTH:
             left_score += 1
-            reset_game()
+            play_ball.reset()
+
+        # do something when game score
+        win_state = False
+        win_text = ""
+
+        if left_score >= GAME_SCORE:
+            win_text = "Left Player Won!"
+            win_state = True
+        elif right_score >= GAME_SCORE:
+            win_text = "Right Player Won!"
+            win_state = True
+
+        if win_state:
+            txt = SCORE_FONT.render(win_text, True, (255, 255, 255))
+            FRAME.blit(txt, (FRAME_WIDTH // 2 - txt.get_width() // 2, FRAME_HEIGHT // 2 - txt.get_height() // 2))
+
+            pygame.display.update()
+            pygame.time.delay(3000) # delay for 3 seconds before restart
+
+            # reset everything
+            play_ball.reset()
+            left_paddle.reset()
+            right_paddle.reset()
+            left_score = 0
+            right_score = 0
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
