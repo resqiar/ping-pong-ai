@@ -7,6 +7,8 @@ class Ball:
     def __init__(self, x, y, radius):
         self.x = x
         self.y = y
+        self.init_x = x
+        self.init_y = y
         self.radius = radius
         self.v_x = self.MAX_VELOCITY
         self.v_y = 0
@@ -17,3 +19,9 @@ class Ball:
     def move(self):
         self.x += self.v_x
         self.y += self.v_y
+
+    def reset(self):
+        self.x = self.init_x
+        self.y = self.init_y
+        self.v_x *= -1
+        self.v_y = 0

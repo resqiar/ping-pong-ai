@@ -7,7 +7,7 @@ from handle_collision import handle_collision
 # init game
 pygame.init()
 
-FRAME_WIDTH, FRAME_HEIGHT = 700, 500
+FRAME_WIDTH, FRAME_HEIGHT = 700, 500 
 FPS = 60
 
 FRAME = pygame.display.set_mode((FRAME_WIDTH, FRAME_HEIGHT))
@@ -55,6 +55,9 @@ def draw(frame, paddles, ball, left_score, right_score):
 
     pygame.display.update()
 
+def reset_game():
+    play_ball.reset()
+
 def main():
     running = True
 
@@ -84,8 +87,10 @@ def main():
         # calculate if someone win
         if play_ball.x < 0:
             right_score += 1
+            reset_game()
         elif play_ball.x > FRAME_WIDTH:
             left_score += 1
+            reset_game()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
